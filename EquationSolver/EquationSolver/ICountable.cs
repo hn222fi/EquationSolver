@@ -8,13 +8,13 @@ namespace EquationSolver
 {
     interface ICountable
     {
-        ICountable Add
-        { }
-        ICountable Subtract
-        { }
-        ICountable Multiply
-        { }
-        ICountable Divide
-        { }
+        public ICountable Add()
+        { return null; }
+        public ICountable Subtract()
+        { return null; }
+        public ICountable Multiply()
+        { return null; }
+        public ICountable Divide()
+        { return null; }
     }
 }
