@@ -14,32 +14,58 @@ namespace EquationSolver
 
         public Expression(string expression)
         {
+            // Tar bort mellanslag som kan finnas
             expression.Trim();
-            expression = expression.Replace('.', ',');
 
+            // Skapar en lista med strängar av den sträng som angetts för att skapa objektet. Den strängen delas av alla + eller - tecken
             List<string> parts = Regex.Split(expression, @"(?=[+-])").ToList();
+            
+            // Tar bort eventuellt tomma objekt i listan 
             parts.Remove("");
+
+            // Minskar listans storlek till antalet objekt som finns
             parts.TrimExcess();
 
-            _expressionParts = new List<IAlgebraic>();
+            // Initierar lisatn som göms i _expressionParts
+            ExpressionParts = new List<IAlgebraic>();
 
+            // Lägger till varje string objekt från listan som et termobjekt i ExpressionParts
             foreach (string part in parts)
             {
-                    _expressionParts.Add(new Term(part));
+                    ExpressionParts.Add(new Term(part));
             }
+        }
+        public Expression(List<IAlgebraic> expressionParts)
+        {
+            ExpressionParts = expressionParts;
         }
 
         // Egenskaper
-
+            public List<IAlgebraic> ExpressionParts
+            {
+                get {return _expressionParts;}
+                set {_expressionParts = value;}
+            }
         // Overriding object methods
         public override string ToString()
         {
             string expression = "";
-
-            foreach (IAlgebraic part in _expressionParts)
+            
+            foreach (IAlgebraic part in ExpressionParts)
                 expression += part.ToString();
 
-            return expression;
+           expression = expression.TrimStart('+');
+
+           return expression;
+        }
+
+        // Overriding operators
+        public static Expression operator + (Expression ex, Term term)
+        {
+            Expression tempExpression = new Expression(ex.ExpressionParts);
+            tempExpression.ExpressionParts.Add(term);
+
+            return tempExpression;
         }
     }
 }

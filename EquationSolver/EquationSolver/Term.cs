@@ -47,17 +47,17 @@ namespace EquationSolver
         /// <summary>
         /// Ger åtkomst till fältet koefficent
         /// </summary>
-        decimal Koefficent
+        public decimal Koefficent
         {
-            set { _koefficent = value; }
+            private set { _koefficent = value; }
             get { return _koefficent; }
         }
         /// <summary>
         /// Hanterar termens variabel
         /// </summary>
-        char Varible
+        public char Varible
         {
-            set 
+            private set 
             {
                 // Kontrollerar så att variablen är en bokstav
                 if (!Char.IsLetter(value) && value != (char)0)
@@ -82,11 +82,7 @@ namespace EquationSolver
             }
         }
 
-        // Metod att dividera
-        public void divide(decimal dec)
-        {
-            this.Koefficent = this.Koefficent / dec;
-        }
+        // Metoder
 
         // Overriding objekt metoder
         public override bool Equals(object obj)
