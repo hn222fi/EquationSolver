@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquationSolver
 {
-    class Term
+    class Term : IAlgebraic
     {
         // Deklarerar privata fält
         private decimal _koefficent;
