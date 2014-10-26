@@ -23,12 +23,8 @@ namespace EquationSolver
 
             try
             {
-                test3 *= 5;
-               Console.WriteLine(test3);
-               Console.WriteLine(test3 += test1*5);
-               Console.WriteLine(test3 - test1);
-               Console.WriteLine(test3);
-               Console.WriteLine(test1 != test3);
+                Term test = new Term(".,kh5");
+
             }
             catch (Exception ex)
             {
