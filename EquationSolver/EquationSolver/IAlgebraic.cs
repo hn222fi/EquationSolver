@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquationSolver
 {
-    interface IAlgebraic
+    interface IAlgebraic: ICloneable
     {
        
     }

@@ -32,6 +32,9 @@ namespace EquationSolver
                     koefficent += element;
             }
 
+            if (koefficent == "-" || koefficent == "+")
+                koefficent += "1";
+
             Koefficent = Decimal.Parse(koefficent);
         }
         /// <summary>
@@ -83,6 +86,11 @@ namespace EquationSolver
         }
 
         // Metoder
+
+        public object Clone()
+        {
+            return new Term(this.ToString());
+        }
 
         // Overriding objekt metoder
         public override bool Equals(object obj)
