@@ -115,12 +115,41 @@ namespace EquationSolver
         // Overriding operators
         public static Expression operator + (Expression ex, Term term)
         {
-            Expression tempExpression = new Expression(ex.ExpressionParts);
+            Expression tempExpression = new Expression(ex.ClonedExpressionParts);
             tempExpression.ExpressionParts.Add(term);
 
             return tempExpression;
         }
+        public static Expression operator -(Expression ex, Term term)
+        {
+            Expression tempExpression = new Expression(ex.ClonedExpressionParts);
+            term.Koefficent = -1 * term.Koefficent;
+            tempExpression.ExpressionParts.Add(term);
 
+            return tempExpression;
+        }
+        public static Expression operator *(Expression ex, decimal dec)
+        {
+            Expression tempExpression = new Expression(ex.ClonedExpressionParts);
+            
+            foreach(Term part in tempExpression.ExpressionParts)
+            {
+                part.Koefficent = part.Koefficent * dec;
+            }
+
+            return tempExpression;
+        }
+        public static Expression operator /(Expression ex, decimal dec)
+        {
+            Expression tempExpression = new Expression(ex.ClonedExpressionParts);
+
+            foreach (Term part in tempExpression.ExpressionParts)
+            {
+                part.Koefficent = part.Koefficent / dec;
+            }
+
+            return tempExpression;
+        }
         // Clone interface method
         public object Clone()
         {

@@ -52,7 +52,7 @@ namespace EquationSolver
         /// </summary>
         public decimal Koefficent
         {
-            private set { _koefficent = value; }
+            set { _koefficent = value; }
             get { return _koefficent; }
         }
         /// <summary>
@@ -60,7 +60,7 @@ namespace EquationSolver
         /// </summary>
         public char Varible
         {
-            private set 
+            set 
             {
                 // Kontrollerar så att variablen är en bokstav
                 if (!Char.IsLetter(value) && value != (char)0)
