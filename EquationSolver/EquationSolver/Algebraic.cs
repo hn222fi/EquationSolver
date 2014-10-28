@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace EquationSolver
 {
-    interface IAlgebraic: ICloneable
+    abstract class Algebraic: ICloneable
     {
+
+        public abstract bool IsConstant { get;}
+
+        public abstract object Clone();
        
+
     }
 }

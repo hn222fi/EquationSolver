@@ -10,13 +10,18 @@ namespace EquationSolver
     {
         static void Main(string[] args)
         {
-            Expression test = new Expression("4x+5x-5+2a");
+            Equation test = new Equation("-12x+23-4x+2234=45");
+
             try
             {
                 Console.WriteLine(test);
-                test /= 2;
+                test.SolveNextStep();
                 Console.WriteLine(test);
-                test.Simplify();
+                test.SolveNextStep();
+                Console.WriteLine(test);
+                test.SolveNextStep();
+                Console.WriteLine(test);
+                test.SolveNextStep();
                 Console.WriteLine(test);
             }
             catch (Exception ex)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EquationSolver
 {
-    class Term : IAlgebraic
+    class Term : Algebraic
     {
         // Deklarerar privata fält
         private decimal _koefficent;
@@ -71,10 +71,18 @@ namespace EquationSolver
             }
             get { return _varible; }
         }
+        
+
+        // Metoder
+
+        public override object Clone()
+        {
+            return new Term(this.ToString());
+        }
         /// <summary>
         /// Egenskap som berättar om termen är en konstantterm
         /// </summary>
-        public bool IsConstant
+        public override bool IsConstant
         {
             get
             {
@@ -84,14 +92,6 @@ namespace EquationSolver
                     return false;
             }
         }
-
-        // Metoder
-
-        public object Clone()
-        {
-            return new Term(this.ToString());
-        }
-
         // Overriding objekt metoder
         public override bool Equals(object obj)
         {

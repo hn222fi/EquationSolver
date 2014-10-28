@@ -7,10 +7,10 @@ using System.Text.RegularExpressions;
 
 namespace EquationSolver
 {
-    class Expression : IAlgebraic
+    class Expression : Algebraic
     {
         // Deklarerar fält
-        private List<IAlgebraic> _expressionParts;
+        private List<Algebraic> _expressionParts;
 
         public Expression(string expression)
         {
@@ -27,7 +27,7 @@ namespace EquationSolver
             parts.TrimExcess();
 
             // Initierar lisatn som göms i _expressionParts
-            ExpressionParts = new List<IAlgebraic>();
+            ExpressionParts = new List<Algebraic>();
 
             // Lägger till varje string objekt från listan som et termobjekt i ExpressionParts
             foreach (string part in parts)
@@ -35,26 +35,26 @@ namespace EquationSolver
                     ExpressionParts.Add(new Term(part));
             }
         }
-        public Expression(List<IAlgebraic> expressionParts)
+        public Expression(List<Algebraic> expressionParts)
         {
             ExpressionParts = expressionParts;
         }
 
         // Egenskaper
-        public List<IAlgebraic> ExpressionParts
+        public List<Algebraic> ExpressionParts
             {
                 get {return _expressionParts;}
                 set {_expressionParts = value;}
             }
-        public List<IAlgebraic> ClonedExpressionParts
+        public List<Algebraic> ClonedExpressionParts
             {
                 get 
                 { 
-                    List<IAlgebraic> clonedExpressionParts = new List<IAlgebraic>();
+                    List<Algebraic> clonedExpressionParts = new List<Algebraic>();
 
                     for (int i = 0; i < ExpressionParts.Count; i++ )
                     {
-                        IAlgebraic temp = ExpressionParts[i].Clone() as IAlgebraic;
+                        Algebraic temp = ExpressionParts[i].Clone() as Algebraic;
                         clonedExpressionParts.Add(temp);
                     }
 
@@ -75,8 +75,8 @@ namespace EquationSolver
         /// <returns>En colnad förenklad kopia av uttrycket</returns>
         public Expression Simplified()
         {
-            List<IAlgebraic> clonedExpressionParts = ClonedExpressionParts;
-            List<IAlgebraic> clonedExpression = new List<IAlgebraic>();
+            List<Algebraic> clonedExpressionParts = ClonedExpressionParts;
+            List<Algebraic> clonedExpression = new List<Algebraic>();
 
             for (int n = 0; n < clonedExpressionParts.Count; n++ )
             {
@@ -104,7 +104,7 @@ namespace EquationSolver
         {
             string expression = "";
             
-            foreach (IAlgebraic part in ExpressionParts)
+            foreach (Algebraic part in ExpressionParts)
                 expression += part.ToString();
 
            expression = expression.TrimStart('+');
@@ -112,7 +112,36 @@ namespace EquationSolver
            return expression;
         }
 
+        public override bool Equals(object obj)
+        {
+            Expression objExpression = obj as Expression;
+
+            if ((object)objExpression == null)
+                throw new ArgumentException("Equals method need to compare two expression objects");
+
+            return (this.ExpressionParts.All(objExpression.ExpressionParts.Contains));
+        }
+
+        public override int GetHashCode()
+        {
+            int hash = 486143452;
+            foreach(Term part in ExpressionParts)
+            {
+                hash = hash * 17 + part.GetHashCode();
+            }
+
+            return hash;
+        }
+
         // Overriding operators
+        public static bool operator == (Expression ex1, Expression ex2)
+        {
+            return ex1.Equals(ex2);
+        }
+        public static bool operator != (Expression ex1, Expression ex2)
+        {
+            return !(ex1 == ex2);
+        }
         public static Expression operator + (Expression ex, Term term)
         {
             Expression tempExpression = new Expression(ex.ClonedExpressionParts);
@@ -150,8 +179,22 @@ namespace EquationSolver
 
             return tempExpression;
         }
+        // Algebraic methods and properties
+        public override bool IsConstant
+        {
+            get
+            {
+                foreach (Term part in ExpressionParts)
+                {
+                    if (!part.IsConstant)
+                        return false;
+                }
+                return true;
+            }
+        }
+        
         // Clone interface method
-        public object Clone()
+        public override object Clone()
         {
             return new Expression(this.ClonedExpressionParts);
         }
