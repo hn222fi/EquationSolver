@@ -294,6 +294,14 @@ namespace EquationSolver
 
             LeftHandSide /= divider;
             RightHandSide /= divider;
+
+            if (divider < 0)
+            {
+                if (EqualityType == '<')
+                    EqualityType = '>';
+                else if (EqualityType == '>')
+                    EqualityType = '<';
+            }
         }
         // Overriding object methods
         public override string ToString()

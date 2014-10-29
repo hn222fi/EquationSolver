@@ -10,24 +10,15 @@ namespace EquationSolver
     {
         static void Main(string[] args)
         {
-            Equation test = new Equation("-12x+23-4x+2234=45");
+            Equation equationToSolve = EquationReader.ConsoleEquationsRead();
 
-            try
-            {
-                Console.WriteLine(test);
-                test.SolveNextStep();
-                Console.WriteLine(test);
-                test.SolveNextStep();
-                Console.WriteLine(test);
-                test.SolveNextStep();
-                Console.WriteLine(test);
-                test.SolveNextStep();
-                Console.WriteLine(test);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            Console.Clear();
+
+            Console.WriteLine(equationToSolve);
+            Console.WriteLine();
+            equationToSolve.Solve();
+            Console.WriteLine(equationToSolve);
+           
         }
     }
 }
