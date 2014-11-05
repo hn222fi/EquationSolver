@@ -17,6 +17,10 @@ namespace EquationSolver
             // Tar bort mellanslag som kan finnas
             expression.Trim();
 
+            // Kontrollerar om den inmatade strängen kan tolkas som ett uttryck
+            if (!Regex.IsMatch(expression, @"^([+-]?\d*[.,]?\d*\w?)([+-]\d*[.,]?\d*\w?)*$"))
+                throw new ArgumentException("Strängen kan inte tolkas som en uttryck");
+
             // Skapar en lista med strängar av den sträng som angetts för att skapa objektet. Den strängen delas av alla + eller - tecken
             List<string> parts = Regex.Split(expression, @"(?=[+-])").ToList();
             

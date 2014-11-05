@@ -4,3 +4,9 @@ C:\Users\Henrik\programmering\projekts\EquationSolver\EquationSolver\EquationSol
 C:\Users\Henrik\programmering\projekts\EquationSolver\EquationSolver\EquationSolver\bin\Debug\EquationSolver.pdb
 C:\Users\Henrik\programmering\projekts\EquationSolver\EquationSolver\EquationSolver\obj\Debug\EquationSolver.exe
 C:\Users\Henrik\programmering\projekts\EquationSolver\EquationSolver\EquationSolver\obj\Debug\EquationSolver.pdb
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\bin\Debug\EquationSolver.exe.config
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\obj\Debug\EquationSolver.exe
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\obj\Debug\EquationSolver.pdb
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\bin\Debug\EquationSolver.exe
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\bin\Debug\EquationSolver.pdb
+C:\Users\Henrik\Programmering\projects\EquationSolver\EquationSolver\EquationSolver\obj\Debug\EquationSolver.csprojResolveAssemblyReference.cache

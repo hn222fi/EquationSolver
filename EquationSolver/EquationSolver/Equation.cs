@@ -81,6 +81,10 @@ namespace EquationSolver
             // Skapar en lista med strängar av den sträng som angetts för att skapa objektet. Den strängen delas av alla + eller - tecken
             List<string> sides = Regex.Split(equationExpression, @"(?=[=<>])").ToList();
 
+            // Kontrollerar så att ekvationen blev korrekt inmatad
+            if (sides.Count != 2)
+                throw new ArgumentException("Strängen kunde inte tolkas som en ekvation.");
+
             // Tar bort eventuellt tomma objekt i listan 
             sides.Remove("");
 

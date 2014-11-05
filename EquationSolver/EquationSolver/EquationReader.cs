@@ -17,7 +17,7 @@ namespace EquationSolver
             {
                 try
                 {
-                    Console.WriteLine("Ange en linjär ekvation eller olikhet: ");
+                    Console.Write("Ange en linjär ekvation eller olikhet: ");
                     readLine = Console.ReadLine();
 
                     Equation readEquation = new Equation(readLine);
@@ -26,16 +26,12 @@ namespace EquationSolver
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine();
-                    Console.BackgroundColor = ConsoleColor.Red;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("FEL! {0} kunde inte tolkas som en ekvation.", readLine);
-                    Console.WriteLine(ex.Message);
-                    Console.ResetColor();
-                    Console.WriteLine();
+                    ConsoleGraphics.ViewMessage(String.Format("FEL! {0} kunde inte tolkas som en ekvation.\n {1}", readLine, ex.Message));
                 }
             }
 
         }
+
+        
     }
 }

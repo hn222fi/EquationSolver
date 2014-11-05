@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace EquationSolver
 {
@@ -20,6 +21,11 @@ namespace EquationSolver
         public Term(string term)
         {
             term.Trim();
+            
+            // Kontrollerar om den inmatade strängen är en 
+            if (!Regex.IsMatch(term, @"(^[+-]?\d*[.,]?\d*\w?$)"))
+                throw new ArgumentException("Strängen kan inte tolkas som en term");
+            
             char[] chars = term.Replace('.', ',').ToCharArray();
             string koefficent = "";
             Varible = (char)0;
