@@ -12,6 +12,7 @@ namespace EquationSolver
         // Deklarerar privata fält
         private decimal _koefficent;
         private char _varible;
+        private static int _decimals = 2;
 
         // Konstruktorer
         /// <summary>
@@ -38,7 +39,7 @@ namespace EquationSolver
                     koefficent += element;
             }
 
-            if (koefficent == "-" || koefficent == "+")
+            if (koefficent == "-" || koefficent == "+" || koefficent == "")
                 koefficent += "1";
 
             Koefficent = Decimal.Parse(koefficent);
@@ -77,7 +78,17 @@ namespace EquationSolver
             }
             get { return _varible; }
         }
-        
+        public static int Decimals
+        {
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Antalet decimaler kan inte vara negativt");
+
+                _decimals = value;
+            }
+            get {return _decimals;}
+        }
 
         // Metoder
 
@@ -118,8 +129,12 @@ namespace EquationSolver
             if (Koefficent > 0)
                 temp += "+";
 
-            if (Koefficent != 1)
-                temp += Koefficent.ToString("G29");
+            if (Koefficent == 1)
+                temp += "";
+            else if (Koefficent == -1)
+                temp += "-";
+            else
+                temp += Math.Round(Koefficent, Decimals);
 
             if (!IsConstant)
                 temp += Varible;

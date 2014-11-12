@@ -79,12 +79,16 @@ namespace EquationSolver
         /// <returns>En colnad förenklad kopia av uttrycket</returns>
         public Expression Simplified()
         {
+            // Skapar en ny clonad lista för att kunna returnera ett clonat förenklat uttryck
             List<Algebraic> clonedExpressionParts = ClonedExpressionParts;
             List<Algebraic> clonedExpression = new List<Algebraic>();
 
+            // Går igenom varje term i uttrycket
             for (int n = 0; n < clonedExpressionParts.Count; n++ )
             {
+                // Skapar en ny term för att kontrollera den term som vi ska undersöka
                 Term termPart = clonedExpressionParts[n] as Term;
+
 
                 for (int i = n+1; i < clonedExpressionParts.Count; i++)
                 {
@@ -106,6 +110,9 @@ namespace EquationSolver
         // Overriding object methods
         public override string ToString()
         {
+            if (ExpressionParts.Count == 0)
+                return "0";
+            
             string expression = "";
             
             foreach (Algebraic part in ExpressionParts)
@@ -123,7 +130,7 @@ namespace EquationSolver
             if ((object)objExpression == null)
                 throw new ArgumentException("Equals method need to compare two expression objects");
 
-            return (this.ExpressionParts.All(objExpression.ExpressionParts.Contains));
+            return (this.ExpressionParts.All(objExpression.ExpressionParts.Contains) && objExpression.ExpressionParts.All(this.ExpressionParts.Contains));
         }
 
         public override int GetHashCode()

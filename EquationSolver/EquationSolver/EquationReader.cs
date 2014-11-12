@@ -26,7 +26,7 @@ namespace EquationSolver
                 }
                 catch (Exception ex)
                 {
-                    ConsoleGraphics.ViewMessage(String.Format("FEL! {0} kunde inte tolkas som en ekvation.\n {1}", readLine, ex.Message));
+                    ConsoleGraphics.ViewMessage(String.Format("FEL! {0} kunde inte tolkas som en ekvation.\n {1}", readLine, ex.Message), ConsoleColor.Red);
                 }
             }
 

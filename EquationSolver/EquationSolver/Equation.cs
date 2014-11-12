@@ -68,6 +68,38 @@ namespace EquationSolver
                     return true;
             }
         }
+
+        public bool IsSolveble
+        {
+            get
+            {
+                if (!IsLinear)
+                    return false;
+
+                // Kontrollerar så att variabeltermerna inte har samma coefficienter på båda sidor
+                decimal totalLeftKoefficent = 0;
+                decimal totalRightKoefficent = 0;
+
+                foreach (Term term in LeftHandSide.ExpressionParts)
+                {
+                    if (!term.IsConstant)
+                        totalLeftKoefficent += term.Koefficent;
+                }
+                foreach (Term term in RightHandSide.ExpressionParts)
+                {
+                    if (!term.IsConstant)
+                        totalRightKoefficent += term.Koefficent;
+                }
+
+                if (totalLeftKoefficent == totalRightKoefficent)
+                    return false;
+
+                if (LeftHandSide.IsConstant && RightHandSide.IsConstant)
+                    return false;
+
+                return true;
+            }
+        }
         // Konstruktorer
         public Equation(Expression left, Expression right, char equalitySign)
         {
@@ -120,7 +152,7 @@ namespace EquationSolver
         /// 3: Bestämmer sidan utan x och för all konstanter till den sidan
         /// 4: Dividerar båda sidor med koefficienten framför variabeln
         /// </summary>
-        public void SolveNextStep()
+        public string SolveNextStep()
         {
             if (!IsLinear)
                 throw new ApplicationException("Only linear equations can be solved.");
@@ -157,34 +189,44 @@ namespace EquationSolver
                     if (variableTerm.Koefficent != 1)
                         stepSwitch = 4;
                 }
-
             }
+            
+            // Kontrollerar om variabeln står till vänster eller höger 
+            if (LeftHandSide.IsConstant && stepSwitch == 0)
+                {
+                    Expression tempLeftHandSide = (Expression)LeftHandSide.Clone();
+                    LeftHandSide = (Expression)RightHandSide.Clone();
+                    RightHandSide = tempLeftHandSide;
+                    return "Byter plats på vänsterled och högerled.";
+                }
             
             switch(stepSwitch)
             {
                 // Ekvationen är redan löst
                 case 0:
                     IsSolved = true;
-                    break;
+                    return "Ekvationen är löst.";
                 // Ekvationen ska förenklas i båda led
                 case 1:
                     LeftHandSide.Simplify();
                     RightHandSide.Simplify();
-                    break;
+                    return "Förenklat vänsterled och högerled.";
                 // Ekvatioen ska samla alla variabeltermer på samma sida
                 case 2:
                     CollectVariabelsOnOneSide();
-                    break;
+                    return "Flyttat över variabeltermerna till samma sida.";
                 // Tar bort konstanter från den sida där variabeln finns
                 case 3:
                     RemoveConstantsFromVaribleSide();
-                    break;
+                    return "Flyttat över konstanttermen från den sidan där variabeln finns.";
                 // Dividerar båda sidor med koefficienten framför varibeltermen
                 case 4:
                     DivideKoefficent();
-                    IsSolved = true;
-                    break;
+                    LeftHandSide.Simplify();
+                    RightHandSide.Simplify();
+                    return "Dividerat båda sidor med koefficienten framför variabeln.";
             }
+            return "Ett fel inträffade";
         }
         /// <summary>
         /// Step 2 of solving equations. Collect all varibleterms on the side with the most varible terms.
@@ -194,6 +236,7 @@ namespace EquationSolver
             decimal left = 0;
             decimal right = 0;
 
+            // Summerar koefficeineterna värde i vänster och högerled
             foreach (Term part in LeftHandSide.ExpressionParts)
             {
                 if (!part.IsConstant)
@@ -204,34 +247,36 @@ namespace EquationSolver
                 if (!part.IsConstant)
                     right += part.Koefficent;
             }
+
+            // Om vänstersidan är större än högersidan ska variabltermerna flyttas dit annars tvärtom
             if (left > right)
             {
-                for (int i = 0; i < RightHandSide.ExpressionParts.Count && !RightHandSide.ExpressionParts[i].IsConstant; i++)
+                for (int i = 0; i < RightHandSide.ExpressionParts.Count; i++)
                 {
                     Term temp = RightHandSide.ExpressionParts[i] as Term;
 
-                    if (temp.Koefficent < 0)
-                        LeftHandSide += temp;
-                    else
+                    if (!RightHandSide.ExpressionParts[i].IsConstant)
+                    {
                         LeftHandSide -= temp;
 
-                    RightHandSide.ExpressionParts.RemoveAt(i);
-                    LeftHandSide.Simplify();
+                        RightHandSide.ExpressionParts.RemoveAt(i);
+                        LeftHandSide.Simplify();
+                    }
                 }
             }
             else if(left < right)
             {
-                for (int i = 0; i < LeftHandSide.ExpressionParts.Count && !LeftHandSide.ExpressionParts[i].IsConstant; i++)
+                for (int i = 0; i < LeftHandSide.ExpressionParts.Count; i++)
                 {
                     Term temp = LeftHandSide.ExpressionParts[i] as Term;
 
-                    if (temp.Koefficent < 0)
-                        RightHandSide += temp;
-                    else
+                    if (!LeftHandSide.ExpressionParts[i].IsConstant)
+                    {
                         RightHandSide -= temp;
 
-                    LeftHandSide.ExpressionParts.RemoveAt(i);
-                    RightHandSide.Simplify();
+                        LeftHandSide.ExpressionParts.RemoveAt(i);
+                        RightHandSide.Simplify();
+                    }
                 }
             }
             else
